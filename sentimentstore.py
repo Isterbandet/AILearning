@@ -50,9 +50,9 @@ class SentimentStore:
 
     def addStringScore(self, string, score):
         words = string.split(" ")
-        if len(words) < 50:
-            score = 1.5
-        testlist= []
+        #if len(words) < 50:
+         #   score = 1.5
+        testlist = []
         for word in words:
             if len(word) > 3: # ignore short words
                 if len(testlist)<2:
@@ -60,14 +60,15 @@ class SentimentStore:
                 if len(testlist)==2:
                     newtr = "".join(testlist)
                     self.addStringScore(newtr,score)
-                    #print(newtr)
+
                     del testlist[0]
                     del testlist[0]
 
 
 
                 self.addWordScore(word, score)
-                print(word)
+                #print(word)
+
                 self.totwords+= 1
 
     def getWordSentiment(self, word):
