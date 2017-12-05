@@ -25,6 +25,7 @@ class SentimentStore:
         return lengthofNeg
 
     def getTotalWordCount(self):
+
         # TODO:  return the total number of unique words in the store
         self.uniWords = dict(self.poswords)
         for key in self.negWords:
@@ -38,6 +39,7 @@ class SentimentStore:
         if score == -1:
             if word in self.negWords:
                 self.negWords[word] -= 1
+
             else:
                 self.negWords.update({word:score})
         else:
@@ -48,26 +50,54 @@ class SentimentStore:
 
     def addStringScore(self, string, score):
         words = string.split(" ")
+        if len(words) < 50:
+            score = 1.5
+        testlist= []
         for word in words:
             if len(word) > 3: # ignore short words
+                if len(testlist)<2:
+                    testlist.append(word)
+                if len(testlist)==2:
+                    newtr = "".join(testlist)
+                    self.addStringScore(newtr,score)
+                    #print(newtr)
+                    del testlist[0]
+                    del testlist[0]
+
+
+
                 self.addWordScore(word, score)
+                print(word)
                 self.totwords+= 1
 
     def getWordSentiment(self, word):
         # TODO: return sentiment score for a given word,
         # TODO: return 0 if word not in store
+        poscounter = 0
+        negcounter = 0
         point = 0
-        point += self.poswords[word]
-        point -= self.negWords[word]
-        return point
+        if word in self.poswords:
+
+            poscounter += self.poswords[word]
+        if word in self.negWords:
+            negcounter += self.negWords[word]
+        #print("Sentiment",poscounter+ negcounter)
+        return poscounter+negcounter
+
 
     def getWordCount(self, word):
         # TODO: return how many times we have seen a word
         # TODO: return 0 if word not in store
         counter = 0
-        counter += self.poswords[word]
-        counter += self.negWords[word]
-        return counter
+        pos = 0
+        neg = 0
+        if word in self.poswords:
+
+            pos += self.poswords[word]
+        if word in self.negWords:
+            neg += self.negWords[word]
+        #print(pos - neg)
+        return pos - neg
 
     def getNormalizedWordSentiment(self, word):
         # This function is important - by normalizing the data we compensate
