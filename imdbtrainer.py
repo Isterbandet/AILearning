@@ -39,12 +39,12 @@ class IMDBTrainer():
         for i in range(self.size):
             count += 1
             s = sentiment.getStringSentiment( self.data[i] )
-            if ( s < -0.000001 ):
+            if ( s < -0.00001 ):
                 if self.scores[i] < 0:
                     correct += 1
                 else:
                     wrong += 1
-            elif ( s > 0.00001 ):
+            elif ( s > 0.0001 ):
                 if self.scores[i] > 0:
                     correct += 1
                 else:
