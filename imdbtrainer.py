@@ -7,16 +7,19 @@ class IMDBTrainer():
         self.scores = []
         self.data = []
         self.size = 0
+
         # Load up positive and negative reviews
         for X in ["neg", "pos"]:
             for file in os.listdir( os.path.join( path, X ) ):
                 s=file.split("_")
+
                 score = int(s[1].replace(".txt",""))
                 if X=="neg":
                     self.scores.append( -1 )
                 else:
                     self.scores.append(  1 )
                 # read the review..
+
                 data = open( os.path.join( path, X, file ), encoding="utf-8" ).read()
                 self.data.append( data )
                 self.size += 1
@@ -36,12 +39,12 @@ class IMDBTrainer():
         for i in range(self.size):
             count += 1
             s = sentiment.getStringSentiment( self.data[i] )
-            if ( s < -0.01 ):
+            if ( s < -0.000001 ):
                 if self.scores[i] < 0:
                     correct += 1
                 else:
                     wrong += 1
-            elif ( s > 0.01 ):
+            elif ( s > 0.00001 ):
                 if self.scores[i] > 0:
                     correct += 1
                 else:

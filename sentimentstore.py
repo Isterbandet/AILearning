@@ -54,7 +54,7 @@ class SentimentStore:
          #   score = 1.5
         testlist = []
         for word in words:
-            if len(word) > 3: # ignore short words
+            if len(word) > 2: # ignore short words
                 if len(testlist)<2:
                     testlist.append(word)
                 if len(testlist)==2:
@@ -63,8 +63,6 @@ class SentimentStore:
 
                     del testlist[0]
                     del testlist[0]
-
-
 
                 self.addWordScore(word, score)
                 #print(word)
@@ -112,9 +110,20 @@ class SentimentStore:
     def getStringSentiment(self, s):
         score = 0
         count = 0
+        tvaordsraket = []
         words = s.split(" ")
         for word in words:
-            if len(word) > 3: # ignore short words
+            if len(word) > 2: # ignore short words
+                if len(tvaordsraket)<2:
+                    tvaordsraket.append(word)
+                if len(tvaordsraket)==2:
+                    newtr = "".join(tvaordsraket)
+                    score += self.getNormalizedWordSentiment(newtr)
+                    del tvaordsraket[0]
+                    del tvaordsraket[0]
+
+
+
                 count += 1
                 word = word.lower()
                 score += self.getNormalizedWordSentiment(word)
